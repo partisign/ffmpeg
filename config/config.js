@@ -6,8 +6,8 @@ export const config = {
     convertedDir: path.resolve('./converted'),
     workerPath: path.resolve('./workers/convert.worker.js'),
   },
-  multer: {
-    fileSizeLimit: 2000 * 1024 * 1024,
+  alowwedInputVideo: {
+    sizeLimit: 2000 * 1024 * 1024,
+    extentions: ['.mov'],
   },
-  AllowFileExtentions: ['mov'],
 };

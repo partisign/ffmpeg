@@ -12,7 +12,7 @@ export class UploadController {
     const inputPath = path.join(config.paths.uploadDir, req.file.filename);
     try {
       const outputFile = await this.uploadService.addTask(req.file.filename);
-      res.json({ downloadUrl: `/download/${outputFile}` });
+      res.status(201).json({ downloadUrl: `/download/${outputFile}` });
     } catch (err) {
       return res.status(500).json({ error: err.message });
     }

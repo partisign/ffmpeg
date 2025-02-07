@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname).toLowerCase();
 
-  if (!config.AllowFileExtentions.includes(ext)) {
+  if (!config.alowwedInputVideo.extentions.includes(ext)) {
     return cb(new Error(`Недопустимый формат файла: ${ext}`), false);
   }
 
@@ -31,6 +31,6 @@ const fileFilter = (req, file, cb) => {
 
 export const upload = multer({
   storage,
-  limits: { fileSize: config.multer.fileSizeLimit },
+  limits: { fileSize: config.alowwedInputVideo.sizeLimit },
   fileFilter,
 });
