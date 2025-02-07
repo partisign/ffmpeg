@@ -3,7 +3,6 @@ import { config } from '../config/config.js';
 import { UploadService } from '../services/upload.service.js';
 
 export class UploadController {
-  //прокину сервис по-умолчанию
   constructor(uploadService = new UploadService()) {
     this.uploadService = uploadService;
     this.uploadVideo = this.uploadVideo.bind(this);
