@@ -9,5 +9,6 @@ export const config = {
   alowwedInputVideo: {
     sizeLimit: 2000 * 1024 * 1024,
     extentions: ['.mov'],
+    format: ['mov'],
   },
 };

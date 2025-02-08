@@ -2,9 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import os from 'node:os';
+import ffmpeg from 'fluent-ffmpeg';
+import ffmpegPath from 'ffmpeg-static';
 import { Worker } from 'worker_threads';
 import { config } from '../config/config.js';
 
+ffmpeg.setFfmpegPath(ffmpegPath);
 export class UploadService {
   constructor(uploadDir = config.paths.uploadDir, convertedDir = config.paths.convertedDir) {
     this.UPLOAD_DIR = uploadDir;
@@ -12,6 +15,24 @@ export class UploadService {
     this.MAX_WORKERS = os.cpus().length;
     this.tasksQueue = [];
     this.workers = new Set();
+  }
+
+  checkVideoFormat(inputFile) {
+    return new Promise((resolve, reject) => {
+      ffmpeg.ffprobe(inputFile, (err, metadata) => {
+        if (err) {
+          return reject(new Error(`Ошибка при анализе видео: ${err}`));
+        }
+
+        const format = metadata.format.format_name.split(',');
+        const isValidFormat = format.some((format) => config.alowwedInputVideo.extentions.includes(format));
+
+        if (!isValidFormat) {
+          return reject(new Error(`Недопустимый формат видео`));
+        }
+        resolve();
+      });
+    });
   }
 
   async addTask(inputFile) {

@@ -11,6 +11,7 @@ export class UploadController {
     if (!req.file) return res.status(500).json({ error: 'Файл не загружен' });
     const inputPath = path.join(config.paths.uploadDir, req.file.filename);
     try {
+      await this.uploadService.checkVideoFormat(req.file.filename);
       const outputFile = await this.uploadService.addTask(req.file.filename);
       res.status(201).json({ downloadUrl: `/download/${outputFile}` });
     } catch (err) {
