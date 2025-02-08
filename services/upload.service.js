@@ -3,11 +3,13 @@ import path from 'path';
 import crypto from 'crypto';
 import os from 'node:os';
 import ffmpeg from 'fluent-ffmpeg';
-import ffmpegPath from 'ffmpeg-static';
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+import ffprobeInstaller from '@ffprobe-installer/ffprobe';
 import { Worker } from 'worker_threads';
 import { config } from '../config/config.js';
 
-ffmpeg.setFfmpegPath(ffmpegPath);
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+ffmpeg.setFfprobePath(ffprobeInstaller.path);
 export class UploadService {
   constructor(uploadDir = config.paths.uploadDir, convertedDir = config.paths.convertedDir) {
     this.UPLOAD_DIR = uploadDir;
@@ -25,7 +27,7 @@ export class UploadService {
         }
 
         const format = metadata.format.format_name.split(',');
-        const isValidFormat = format.some((format) => config.alowwedInputVideo.extentions.includes(format));
+        const isValidFormat = format.some((f) => config.alowwedInputVideo.format.includes(f));
 
         if (!isValidFormat) {
           return reject(new Error(`Недопустимый формат видео`));

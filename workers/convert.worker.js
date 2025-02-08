@@ -1,9 +1,11 @@
 import { parentPort } from 'worker_threads';
 import ffmpeg from 'fluent-ffmpeg';
-import ffmpegPath from 'ffmpeg-static';
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+import ffprobeInstaller from '@ffprobe-installer/ffprobe';
 import path from 'path';
 
-ffmpeg.setFfmpegPath(ffmpegPath);
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+ffmpeg.setFfprobePath(ffprobeInstaller.path);
 
 parentPort.on('message', ({ inputFile, outputFile, uploadDir, convertedDir }) => {
   try {
