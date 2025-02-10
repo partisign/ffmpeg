@@ -19,7 +19,7 @@ export class UploadService {
     this.workers = new Set();
   }
 
-  checkVideoFormat(inputFile) {
+  async checkVideoFormat(inputFile) {
     return new Promise((resolve, reject) => {
       ffmpeg.ffprobe(inputFile, (err, metadata) => {
         if (err) {
@@ -53,7 +53,7 @@ export class UploadService {
     });
   }
 
-  processQueue() {
+  async processQueue() {
     while (this.workers.size < this.MAX_WORKERS && this.tasksQueue.length > 0) {
       const task = this.tasksQueue.shift();
       const worker_path = config.paths.workerPath;
